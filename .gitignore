@@ -1,0 +1,5 @@
+/WebContent/WEB-INF/lib/*.jar
+*.class
+.settings/
+.idea/
+target/
