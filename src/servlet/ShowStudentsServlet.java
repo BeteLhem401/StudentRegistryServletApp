@@ -17,22 +17,25 @@ public class ShowStudentsServlet extends HttpServlet {
             throws ServletException, IOException {
 
         resp.setContentType("text/html;charset=UTF-8");
-        List<Student> students = dao.getAllStudents();
-        PrintWriter out = resp.getWriter();
+        try (PrintWriter out = resp.getWriter()) {
+    List<Student> students = dao.getAllStudents();
 
-        out.println("<html><body>");
-        out.println("<h2>Registered Students</h2>");
-        out.println("<table border='1'>");
-        out.println("<tr><th>Name</th><th>Email</th><th>Year</th></tr>");
+    out.println("<html><body>");
+    out.println("<h2>Registered Students</h2>");
+    out.println("<table border='1'>");
+    out.println("<tr><th>Name</th><th>Email</th><th>Year</th></tr>");
 
-        for (Student s : students) {
-            out.println("<tr>");
-            out.println("<td>" + s.getName() + "</td>");
-            out.println("<td>" + s.getEmail() + "</td>");
-            out.println("<td>" + s.getYear() + "</td>");
-            out.println("</tr>");
-        }
-
-        out.println("</table></body></html>");
+    for (Student s : students) {
+        out.println("<tr>");
+        out.println("<td>" + s.getName() + "</td>");
+        out.println("<td>" + s.getEmail() + "</td>");
+        out.println("<td>" + s.getYear() + "</td>");
+        out.println("</tr>");
     }
+
+    out.println("</table></body></html>");
+} catch (Exception e) {
+    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to fetch students");
+}
+}
 }
