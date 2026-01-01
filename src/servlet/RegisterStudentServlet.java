@@ -13,12 +13,18 @@ public class RegisterStudentServlet extends HttpServlet {
                           HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String name = req.getParameter("name");
-        String email = req.getParameter("email");
-        int year = Integer.parseInt(req.getParameter("year"));
+       try {
+    String name = req.getParameter("name");
+    String email = req.getParameter("email");
+    int year = Integer.parseInt(req.getParameter("year"));
 
-        dao.insertStudent(name, email, year);
+    dao.insertStudent(name, email, year);
 
-        resp.sendRedirect("show_all");
+    resp.sendRedirect("show_all");
+
+} catch (Exception e) {
+    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input");
+}
+
     }
 }
